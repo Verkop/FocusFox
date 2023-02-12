@@ -1,0 +1,13 @@
+{
+  "name": "Focus Fox",
+  "description": "Focus Fox helps you stay focused on the tasks you want to focus on by blocking distracting sites.",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "index.html"
+  }
+}
