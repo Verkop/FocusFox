@@ -23,7 +23,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
-            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json"],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json", "src/block-page/block-page.html"],
             "styles": ["src/styles.sass"],
             "scripts": [],
             "optimization": {
