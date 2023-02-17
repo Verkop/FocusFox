@@ -24,8 +24,13 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": ["src/favicon.ico", "src/assets", "src/manifest.json", "src/block-page/block-page.html"],
-            "styles": ["src/styles.sass"],
-            "scripts": [],
+            "styles": [
+              "src/styles.sass",
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "src/block-page/block-page.scss"
+            ],
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
             "optimization": {
               "styles": {
                 "inlineCritical": false
