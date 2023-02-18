@@ -1,0 +1,103 @@
+@use '@angular/material' as mat;
+@import './styles/bootstrap';
+@import './styles/colors';
+@import './styles/fonts';
+
+@include mat.core();
+
+$app-theme-primary: mat.define-palette($primary-color-palette);
+$app-theme-accent: mat.define-palette($accent-color-palette);
+$app-theme-warn: mat.define-palette($warn-color-palette);
+$font: mat.define-typography-config(
+  $font-family: $font-family-quicksand,
+);
+
+$app-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $app-theme-primary,
+      accent: $app-theme-accent,
+      warn: $app-theme-warn,
+    ),
+    typography: $font,
+  )
+);
+@include mat.all-component-themes($app-theme);
+
+.mat-icon-button .mat-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.material-icons {
+  font-family: $icon-font-family;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: 'liga';
+  -moz-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @extend .user-select-none;
+
+  /* Rules for using icons as black on a light background. */
+  &.md-dark {
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  &.md-dark.md-inactive {
+    color: rgba(0, 0, 0, 0.26);
+  }
+
+  /* Rules for using icons as white on a dark background. */
+  &.md-light {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  &.md-light.md-inactive {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Animated icons */
+  &.md-spin {
+    animation: md-spin 2s infinite linear;
+  }
+
+  &.md-pulse {
+    animation: md-spin 1s infinite steps(8);
+  }
+
+  @keyframes md-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Flipped icons */
+  &.md-180 {
+    -webkit-transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+
+  /* Button with icon and text */
+  &.md-icon-and-text {
+    margin-left: -4px;
+    margin-right: 4px;
+  }
+}
