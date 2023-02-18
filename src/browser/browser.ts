@@ -1,8 +1,8 @@
 import { filter, fromEventPattern, map, Observable, tap } from 'rxjs'
-import { from } from 'rxjs/internal/observable/from'
-import Tab from './entities/tab'
-import ActionClicked from './events/action-clicked'
-import NavigationCompleted from './events/tab-updated'
+import { from } from 'rxjs'
+import Tab from 'src/browser/entities/tab'
+import ActionClicked from 'src/browser/events/action-clicked'
+import NavigationCompleted from 'src/browser/events/tab-updated'
 
 export default class Browser {
   public static get actionClicked(): Observable<ActionClicked> {
@@ -20,7 +20,11 @@ export default class Browser {
   }
 
   public static getFileContent(path: string): Observable<string> {
-    return from(fetch(chrome.runtime.getURL(path)).then((response) => response.text()))
+    return from(fetch(Browser.getUrl(path)).then((response) => response.text()))
+  }
+
+  public static getUrl(path: string): string {
+    return chrome.runtime.getURL(path)
   }
 
   static fromChromeEvent<T extends any[]>(event: chrome.events.Event<(...args: T) => void>): Observable<T> {

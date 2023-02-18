@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "sass"
+          "style": "scss"
         }
       },
       "root": "",
@@ -23,14 +23,17 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
-            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json", "src/block-page/block-page.html"],
+            "assets": ["src/assets", "src/manifest.json", "src/block-page/block-page.html"],
             "styles": [
-              "src/styles.sass",
-              "node_modules/bootstrap/scss/bootstrap.scss",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "src/styles.scss",
               "src/block-page/block-page.scss"
             ],
-            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles/"
+              ]
+            },
+            "scripts": [],
             "optimization": {
               "styles": {
                 "inlineCritical": false
@@ -52,6 +55,12 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "none"
@@ -91,8 +100,8 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "sass",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.sass"],
+            "assets": ["src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },

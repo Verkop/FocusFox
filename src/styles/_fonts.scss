@@ -1,0 +1,13 @@
+$font-family-quicksand: 'Quicksand';
+$font-family-pacifico: 'Pacifico';
+$icon-font-family: 'Material Icons';
+
+@font-face {
+  font-family: $font-family-quicksand;
+  src: url(/assets/fonts/Quicksand-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: $font-family-pacifico;
+  src: url(/assets/fonts/Pacifico-Regular.ttf) format('truetype');
+}

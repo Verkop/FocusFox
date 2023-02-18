@@ -1,4 +1,3 @@
-import Browser from "./browser/browser";
+import Browser from 'src/browser/browser'
 
-Browser.navigationCompleted
-.subscribe(() =>  console.log('navigation completed'))
+Browser.navigationCompleted.subscribe(() => console.log('navigation completed'))
