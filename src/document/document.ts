@@ -27,7 +27,7 @@ export default class Document {
     Document.addStyle(`body {font-family: ${name}  !important}`)
   }
 
-  private static addStyle(styleContent: string): void {
+  public static addStyle(styleContent: string): void {
     const style = document.documentElement.appendChild(document.createElement('style'))
     style.textContent = styleContent
   }
