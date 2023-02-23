@@ -6,12 +6,18 @@ import Document from 'src/document/document'
 Document.hideBody()
 
 Document.setFont('Quicksand', 'assets/fonts/Quicksand-Regular.ttf')
+Browser.getFileContent('content-scripts/css/block-page.css')
+  .pipe(take(1))
+  .subscribe((style) => {
+    console.log(style)
+    Document.addStyle(style)
+  })
 
 // The body must be replaced after the original document has been loaded otherwise the original page overwrites the block page as soon as it is loaded
 Document.contentLoaded
   .pipe(
     take(1),
-    switchMap(() => Browser.getFileContent('block-page/block-page.html'))
+    switchMap(() => Browser.getFileContent('content-scripts/html/block-page.html'))
   )
   .subscribe((pageContent) => {
     Document.replaceBody(pageContent)
