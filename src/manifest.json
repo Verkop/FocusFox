@@ -1,9 +1,13 @@
 {
   "name": "Focus Fox",
-  "description": "Focus Fox helps you stay focused on the tasks you want to focus on by blocking distracting sites.",
+  "description": "Focus Fox helps you stay concentrated on the tasks you want to focus on by blocking distracting sites.",
   "version": "0.1.0",
   "manifest_version": 3,
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "scripting"],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -11,13 +15,6 @@
   "action": {
     "default_popup": "index.html"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://*.facebook.com/*"],
-      "js": ["content-scripts/js/block-page.js"],
-      "run_at": "document_start"
-    }
-  ],
   "web_accessible_resources": [
     {
       "resources": ["content-scripts/css/*"],
