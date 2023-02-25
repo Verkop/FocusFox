@@ -4,12 +4,12 @@ import type { Configuration } from 'webpack'
 import * as CopyPlugin from 'copy-webpack-plugin'
 
 const contentScriptsSourcePath = 'src/content-scripts/'
+const contentScriptPagesSourcePath = 'src/app/modules/content-scripts/'
 const contentScriptsOutputPath = 'content-scripts/'
 
 // Automatically register all content scrips as entries
-var entryObjects = glob.sync(`${contentScriptsSourcePath}/*/*.ts`).reduce((entries, filePath) => {
-  const relativePath = path.relative(contentScriptsSourcePath, filePath)
-  const entryName = path.dirname(relativePath)
+var entryObjects = glob.sync(`${contentScriptsSourcePath}/*.ts`).reduce((entries, filePath) => {
+  const entryName = path.parse(filePath).name
 
   entries[entryName] = {
     import: filePath,
@@ -20,9 +20,8 @@ var entryObjects = glob.sync(`${contentScriptsSourcePath}/*/*.ts`).reduce((entri
   return entries
 }, {} as any)
 
-var entryObjects = glob.sync(`${contentScriptsSourcePath}/*/*.scss`).reduce((entries, filePath) => {
-  const relativePath = path.relative(contentScriptsSourcePath, filePath)
-  const entryName = path.dirname(relativePath)
+var entryObjects = glob.sync(`${contentScriptPagesSourcePath}/*/*.scss`).reduce((entries, filePath) => {
+  const entryName = path.parse(filePath).name
 
   entries[`${entryName}-style`] = filePath
 
@@ -41,11 +40,11 @@ export default (configuration: Configuration) => {
   const rules = (configuration.module?.rules as any[]) || []
   rules
     .filter(rule => rule?.test instanceof RegExp && (rule.test as RegExp).test('.scss'))
-    .forEach(rule => (rule.exclude = path.resolve(__dirname, contentScriptsSourcePath)))
+    .forEach(rule => (rule.exclude = path.resolve(__dirname, contentScriptPagesSourcePath)))
 
   configuration.module?.rules?.push({
     test: /\.scss$/,
-    include: path.resolve(__dirname, contentScriptsSourcePath),
+    include: path.resolve(__dirname, contentScriptPagesSourcePath),
     use: [
       {
         loader: 'file-loader',
@@ -59,7 +58,7 @@ export default (configuration: Configuration) => {
     new CopyPlugin({
       patterns: [
         {
-          from: `${contentScriptsSourcePath}/*/*.html`,
+          from: `${contentScriptPagesSourcePath}/*/*.html`,
           to: `${contentScriptsOutputPath}html/[name][ext]`,
         },
       ],

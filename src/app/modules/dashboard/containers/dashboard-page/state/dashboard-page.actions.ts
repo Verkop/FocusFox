@@ -1,7 +1,7 @@
-import { createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 export default class DashboardPageActions {
   private static readonly group = '[Dashboard Page]';
 
-  public static readonly initializing = createAction(`${DashboardPageActions.group} Initializing`);
+  public static readonly blockCurrentPageRequested = createAction(`${DashboardPageActions.group} Block current page requested`);
 }

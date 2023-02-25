@@ -32,6 +32,10 @@ export default class Document {
     style.textContent = styleContent
   }
 
+  public static addSourceAttribute(elementId: string, source: string) {
+    document.getElementById(elementId)?.setAttribute('src', source)
+  }
+
   static fromDocumentEvent(event: string): Observable<void> {
     return fromEventPattern<void>(
       (handler) => {

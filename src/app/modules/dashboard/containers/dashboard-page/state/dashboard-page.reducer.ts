@@ -9,7 +9,7 @@ export class DashboardPageReducer {
   private static readonly reduceInternal = createReducer(
     initialState,
 
-    on(DashboardPageActions.initializing, state => ({
+    on(DashboardPageActions.blockCurrentPageRequested, state => ({
       ...state,
       initializing: true,
     })),
