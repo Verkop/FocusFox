@@ -1,7 +1,3 @@
-﻿export interface DashboardPageState {
-  initializing: boolean;
-}
+﻿export interface DashboardPageState {}
 
-export const initialState: DashboardPageState = {
-  initializing: false,
-};
+export const initialState: DashboardPageState = {}

@@ -1,7 +1,13 @@
-import { createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store'
+import { BlockedPage } from 'src/app/modules/domain/blocked-page'
 
 export default class AppActions {
-  private static readonly group = '[App]';
+  private static readonly group = '[App]'
 
-  public static readonly appInitializing = createAction(`${AppActions.group} Initializing`);
+  public static readonly initializing = createAction(`${AppActions.group} Initializing`)
+
+  public static readonly blockedPagesChanged = createAction(
+    `${AppActions.group} Blocked pages updated`,
+    props<{ blockedPages: BlockedPage[] }>()
+  )
 }

@@ -1,11 +1,11 @@
 import { take } from 'rxjs'
 import ContentScript from 'src/app/modules/content-scripts/content-script'
-import Browser from 'src/browser/browser'
+import Browser from 'src/app/modules/infrastructure/browser/browser'
 import Document from 'src/document/document'
 
 export default abstract class ContentScriptPage extends ContentScript {
-  constructor(id: string) {
-    super(id)
+  constructor(id: string, browser: Browser, document: Document) {
+    super(id, browser, document)
   }
 
   public get styleUrls(): string[] {
@@ -22,22 +22,26 @@ export default abstract class ContentScriptPage extends ContentScript {
 
   public show(): void {
     // The document body must be hidden before the page is loaded, otherwise the original page is visible for a moment before it is replaced by the block page
-    Document.hideBody()
+    this.document.hideBody()
 
-    Document.setFont('Quicksand', 'assets/fonts/Quicksand-Regular.ttf')
+    this.document.setFont('Quicksand', this.browser.getUrl('assets/fonts/Quicksand-Regular.ttf'))
 
-    Browser.getFileContent(`${ContentScriptPage.stylesDirectory}${this.id}.css`)
+    this.browser
+      .getFileContent(`${ContentScriptPage.stylesDirectory}${this.id}.css`)
       .pipe(take(1))
-      .subscribe((style) => Document.addStyle(style))
+      .subscribe((style) => this.document.addStyle(style))
 
-    Browser.getFileContent(`${ContentScriptPage.htmlDirectory}${this.id}.html`)
+    this.browser
+      .getFileContent(`${ContentScriptPage.htmlDirectory}${this.id}.html`)
       .pipe(take(1))
       .subscribe((pageContent) => {
-        Document.replaceBody(pageContent)
+        this.document.replaceBody(pageContent)
         // Source attributes must be added programmatically to resolve the correct URL because paths in html are resolved
         // relative to the host pages URL
-        Object.entries(this.resources).forEach((resource) => Document.addSourceAttribute(resource[0], Browser.getUrl(resource[1])))
-        Document.showBody()
+        Object.entries(this.resources).forEach((resource) =>
+          this.document.addSourceAttribute(resource[0], this.browser.getUrl(resource[1]))
+        )
+        this.document.showBody()
       })
   }
 }

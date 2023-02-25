@@ -3,7 +3,7 @@
   "description": "Focus Fox helps you stay concentrated on the tasks you want to focus on by blocking distracting sites.",
   "version": "0.1.0",
   "manifest_version": 3,
-  "permissions": ["tabs", "scripting"],
+  "permissions": ["tabs", "scripting", "storage"],
   "host_permissions": [
     "https://*/*",
     "http://*/*"

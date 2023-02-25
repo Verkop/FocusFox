@@ -5,5 +5,5 @@ import { Component, EventEmitter, Output } from '@angular/core'
   templateUrl: './page-info.component.html',
 })
 export class PageInfoComponent {
-  @Output() public blockCurrentPageRequested = new EventEmitter<void>()
+  @Output() public blockCurrentPageRequested = new EventEmitter<{ blockAcrossInstallations: boolean }>()
 }
