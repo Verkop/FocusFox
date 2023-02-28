@@ -1,42 +1,43 @@
+import { Injectable } from '@angular/core'
 import { fromEventPattern, Observable } from 'rxjs'
-import Browser from 'src/browser/browser'
 
+@Injectable()
 export default class Document {
-  public static get contentLoaded(): Observable<void> {
-    return this.fromDocumentEvent('DOMContentLoaded')
+  public get contentLoaded(): Observable<void> {
+    return Document.fromDocumentEvent('DOMContentLoaded')
   }
 
-  public static addFont(name: string, fontPath: string): void {
-    Document.addStyle(`@font-face { font-family: ${name}; src: url("${Browser.getUrl(fontPath)}"); }`)
+  public addFont(name: string, url: URL): void {
+    this.addStyle(`@font-face { font-family: ${name}; src: url("${url.href}"); }`)
   }
 
-  public static hideBody(): void {
-    Document.addStyle('body {visibility: hidden !important;}')
+  public hideBody(): void {
+    this.addStyle('body {visibility: hidden !important;}')
   }
 
-  public static showBody(): void {
-    Document.addStyle('body {visibility: visible !important;}')
+  public showBody(): void {
+    this.addStyle('body {visibility: visible !important;}')
   }
 
-  public static replaceBody(body: string): void {
+  public replaceBody(body: string): void {
     document.body.outerHTML = body
   }
 
-  public static setFont(name: string, fontPath: string): void {
-    Document.addFont(name, fontPath)
-    Document.addStyle(`body {font-family: ${name}  !important}`)
+  public setFont(name: string, url: URL): void {
+    this.addFont(name, url)
+    this.addStyle(`body {font-family: ${name}  !important}`)
   }
 
-  public static addStyle(styleContent: string): void {
+  public addStyle(styleContent: string): void {
     const style = document.documentElement.appendChild(document.createElement('style'))
     style.textContent = styleContent
   }
 
-  public static addSourceAttribute(elementId: string, source: string) {
-    document.getElementById(elementId)?.setAttribute('src', source)
+  public addSourceAttribute(elementId: string, source: URL) {
+    document.getElementById(elementId)?.setAttribute('src', source.href)
   }
 
-  static fromDocumentEvent(event: string): Observable<void> {
+  private static fromDocumentEvent(event: string): Observable<void> {
     return fromEventPattern<void>(
       (handler) => {
         document.addEventListener(event, handler)

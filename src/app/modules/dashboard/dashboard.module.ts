@@ -7,10 +7,11 @@ import { NgModule } from '@angular/core';
 import { PageInfoComponent } from 'src/app/modules/dashboard/components/page-info/page-info.component';
 import { MaterialModule } from 'src/app/modules/material/material.module';
 import { DashboardPageContainerComponent } from 'src/app/modules/dashboard/containers/dashboard-page/dashboard-page.container.component';
+import { InfrastructureModule } from 'src/app/modules/infrastructure/infrastructure.module';
 
 @NgModule({
   declarations: [DashboardPageContainerComponent, PageInfoComponent],
-  imports: [CommonModule, MaterialModule, StoreModule.forFeature(DashboardPageReducer.featureName, DashboardPageReducer.reduce), EffectsModule.forFeature([DashboardPageEffects])],
+  imports: [CommonModule, MaterialModule, InfrastructureModule, StoreModule.forFeature(DashboardPageReducer.featureName, DashboardPageReducer.reduce), EffectsModule.forFeature([DashboardPageEffects])],
   providers: [],
   exports: [DashboardPageContainerComponent],
 })

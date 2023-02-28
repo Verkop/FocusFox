@@ -9,7 +9,7 @@ import DashboardPageActions from 'src/app/modules/dashboard/containers/dashboard
 export class DashboardPageContainerComponent {
   constructor(private readonly store: Store) {}
 
-  public onBlockCurrentPageRequested(): void {
-    this.store.dispatch(DashboardPageActions.blockCurrentPageRequested())
+  public onBlockCurrentPageRequested(event: { blockAcrossInstallations: boolean }): void {
+    this.store.dispatch(DashboardPageActions.blockCurrentPageRequested(event))
   }
 }

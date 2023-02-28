@@ -31,7 +31,7 @@ var entryObjects = glob.sync(`${contentScriptPagesSourcePath}/*/*.scss`).reduce(
 export default (configuration: Configuration) => {
   configuration.entry = {
     ...(configuration.entry as object),
-    background: 'src/background.ts',
+    background: { import: 'src/background.ts', runtime: false },
     ...entryObjects,
   }
 
@@ -39,8 +39,8 @@ export default (configuration: Configuration) => {
   // because they must be build in a different way
   const rules = (configuration.module?.rules as any[]) || []
   rules
-    .filter(rule => rule?.test instanceof RegExp && (rule.test as RegExp).test('.scss'))
-    .forEach(rule => (rule.exclude = path.resolve(__dirname, contentScriptPagesSourcePath)))
+    .filter((rule) => rule?.test instanceof RegExp && (rule.test as RegExp).test('.scss'))
+    .forEach((rule) => (rule.exclude = path.resolve(__dirname, contentScriptPagesSourcePath)))
 
   configuration.module?.rules?.push({
     test: /\.scss$/,
