@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
-import { concatWith, from, map, Observable, switchMap, take, withLatestFrom } from 'rxjs'
+import { combineLatestWith, concatWith, from, map, Observable, switchMap, take, withLatestFrom } from 'rxjs'
 import fromChromeEvent from 'src/app/modules/infrastructure/browser/events/from-chrome-event'
 import State, { initialState } from 'src/app/modules/infrastructure/storage/state'
 
 @Injectable()
 export default class Storage {
   public get state(): Observable<[State, State]> {
-    return this.syncedState.pipe(withLatestFrom(this.localState))
+    return this.syncedState.pipe(combineLatestWith(this.localState))
   }
 
   public get syncedState(): Observable<State> {

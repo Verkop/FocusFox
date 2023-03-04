@@ -21,9 +21,9 @@ export default class Browser {
     )
   }
 
-  public get navigationCompleted(): Observable<NavigationCompleted> {
+  public get tabLoading(): Observable<NavigationCompleted> {
     return fromChromeEvent(chrome.tabs.onUpdated).pipe(
-      filter(([, tabChangeInfo]) => tabChangeInfo.status === 'complete'),
+      filter(([, tabChangeInfo]) => tabChangeInfo.status === 'loading'),
       map(([tabId, , tab]) => new NavigationCompleted(new Tab(tabId, tab.url ?? null)))
     )
   }
@@ -36,11 +36,15 @@ export default class Browser {
     return new URL(chrome.runtime.getURL(path))
   }
 
-  public executeContentScript(contentScript: ContentScript): Observable<void> {
+  public executeContentScriptInActiveTab(contentScript: ContentScript): Observable<void> {
     return this.activeTab.pipe(
       take(1),
       switchMap((tab) => this.executeScript(tab.id, contentScript.scriptUrls))
     )
+  }
+
+  public executeContentScript(tab: Tab, contentScript: ContentScript): Observable<void> {
+    return this.executeScript(tab.id, contentScript.scriptUrls)
   }
 
   public executeScript(tabId: number, files: string[]): Observable<void> {
@@ -49,6 +53,7 @@ export default class Browser {
         target: {
           tabId: tabId,
         },
+        injectImmediately: true,
         files: files,
       })
     ).pipe(ignoreElements())
