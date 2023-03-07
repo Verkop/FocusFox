@@ -1,0 +1,14 @@
+<mat-menu #appMenu="matMenu">
+  <ng-container *ngFor="let child of children">
+    1
+    <ng-container *ngTemplateOutlet="child.templateRef"></ng-container>
+  </ng-container>
+</mat-menu>
+
+<span>
+  <button mat-flat-button (click)="mainActionClicked.emit()" color="primary" class="main-button">{{ mainActionName }}</button>
+
+  <button mat-flat-button [matMenuTriggerFor]="appMenu" color="primary" class="menu-trigger px-2">
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+</span>

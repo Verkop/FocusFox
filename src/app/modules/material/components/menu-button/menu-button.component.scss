@@ -1,0 +1,17 @@
+@import 'colors';
+
+.main-button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: $white solid 1px;
+}
+
+.menu-trigger {
+  min-width: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  .mat-icon {
+    margin: 0;
+  }
+}

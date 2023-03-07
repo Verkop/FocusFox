@@ -1,3 +1,10 @@
-<div>
-  <button mat-button (click)="blockCurrentPageRequested.emit({ blockAcrossInstallations: true })">Block this page!</button>
+<div class="d-flex justify-content-center">
+  <app-menu-button
+    *ngIf="!activePageIsBlocked"
+    mainActionName="Block this page!"
+    (mainActionClicked)="blockCurrentPageRequested.emit({ blockAcrossInstallations: false })">
+    <button mat-button *menuButtonItem (click)="blockCurrentPageRequested.emit({ blockAcrossInstallations: true })">
+      Block on all devices!
+    </button>
+  </app-menu-button>
 </div>
