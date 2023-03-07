@@ -9,13 +9,10 @@ export class AppEffects {
   appInitializing$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AppActions.initializing),
-      switchMap(() => this.blockedPageRepository.getBlockedPages()),
+      switchMap(() => this.blockedPageRepository.blockedPages),
       map((blockedPages) => AppActions.blockedPagesChanged({ blockedPages }))
     )
   )
 
-  constructor(
-    private readonly actions$: Actions,
-    private readonly blockedPageRepository: BlockedPageRepository
-  ) {}
+  constructor(private readonly actions$: Actions, private readonly blockedPageRepository: BlockedPageRepository) {}
 }

@@ -11,6 +11,8 @@ export default class ContentScripts {
     return new BlockPage(this.browser, this.document)
   }
 
+  // This method creates all necessary dependencies and shall only be used in non-angular components.
+  // To use this class in angular components use dependency injection.
   public static create(): ContentScripts {
     return new ContentScripts(new Browser(), new Document())
   }

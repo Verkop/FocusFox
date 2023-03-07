@@ -1,21 +1,19 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core'
-import { Store } from '@ngrx/store'
-import { map, Observable, Subscription, switchMap, take, tap } from 'rxjs'
+import { Injectable } from '@angular/core'
+import { map, Observable, switchMap, take } from 'rxjs'
 import { BlockedPage } from 'src/app/modules/domain/blocked-page'
 import { fromDomainModel, toDomainModel } from 'src/app/modules/infrastructure/storage/blocked-page'
 import Storage from 'src/app/modules/infrastructure/storage/storage'
-import AppActions from 'src/app/state/app.actions'
+import distinctUntilSequenceKeyChanged from 'src/app/modules/shared/rxjs/distinct-until-sequence-key-changed'
 
 @Injectable()
-export default class BlockedPageRepository implements OnInit, OnDestroy {
-  private storageSubscription!: Subscription
+export default class BlockedPageRepository {
 
-  constructor(private readonly store: Store, private readonly storage: Storage) {}
+  constructor(private readonly storage: Storage) {}
 
-  public getBlockedPages(): Observable<BlockedPage[]> {
+  public get blockedPages(): Observable<BlockedPage[]> {
     return this.storage.state.pipe(
-      take(1),
-      map(([state, localState]) => state.blockedPages.concat(localState.blockedPages).map(toDomainModel))
+      map(([state, localState]) => state.blockedPages.concat(localState.blockedPages).map(toDomainModel)),
+      distinctUntilSequenceKeyChanged('url')
     )
   }
 
@@ -31,18 +29,5 @@ export default class BlockedPageRepository implements OnInit, OnDestroy {
           : this.storage.updateLocal({ blockedPages: blockedPages })
       })
     )
-  }
-
-  public ngOnInit(): void {
-    this.storageSubscription = this.storage.state
-      .pipe(
-        map(([state, localState]) => state.blockedPages.concat(localState.blockedPages).map(toDomainModel)),
-        tap((blockedPages) => this.store.dispatch(AppActions.blockedPagesChanged({ blockedPages })))
-      )
-      .subscribe()
-  }
-
-  public ngOnDestroy(): void {
-    this.storageSubscription.unsubscribe()
   }
 }

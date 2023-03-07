@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { fromEventPattern, Observable } from 'rxjs'
+import { fromEventPattern, Observable, tap } from 'rxjs'
 
 @Injectable()
 export default class Document {
@@ -45,6 +45,6 @@ export default class Document {
       (handler) => {
         document.removeEventListener(event, handler)
       }
-    )
+    ).pipe(tap((args) => console.log(args)))
   }
 }

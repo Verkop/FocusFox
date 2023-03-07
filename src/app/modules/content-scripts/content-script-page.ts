@@ -1,4 +1,4 @@
-import { take } from 'rxjs'
+import { combineLatestWith, switchMap, take, tap, withLatestFrom } from 'rxjs'
 import ContentScript from 'src/app/modules/content-scripts/content-script'
 import Browser from 'src/app/modules/infrastructure/browser/browser'
 import Document from 'src/document/document'
@@ -33,15 +33,19 @@ export default abstract class ContentScriptPage extends ContentScript {
 
     this.browser
       .getFileContent(`${ContentScriptPage.htmlDirectory}${this.id}.html`)
-      .pipe(take(1))
-      .subscribe((pageContent) => {
-        this.document.replaceBody(pageContent)
-        // Source attributes must be added programmatically to resolve the correct URL because paths in html are resolved
-        // relative to the host pages URL
-        Object.entries(this.resources).forEach((resource) =>
-          this.document.addSourceAttribute(resource[0], this.browser.getUrl(resource[1]))
-        )
-        this.document.showBody()
-      })
+      .pipe(
+        take(1),
+        combineLatestWith(this.document.contentLoaded),
+        tap(([pageContent]) => {
+          this.document.replaceBody(pageContent)
+          // Source attributes must be added programmatically to resolve the correct URL because paths in html are resolved
+          // relative to the host pages URL
+          Object.entries(this.resources).forEach((resource) =>
+            this.document.addSourceAttribute(resource[0], this.browser.getUrl(resource[1]))
+          )
+          this.document.showBody()
+        })
+      )
+      .subscribe()
   }
 }
